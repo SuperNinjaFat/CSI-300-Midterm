@@ -16,9 +16,19 @@ SELECT mi.`pn` AS `Pet Name`, AVG( md.`Grade` ) AS `Highest Average`
    Order By AVG( md.`Grade` ) Desc
    Limit 1;
 # 2. Which trick gets puppies the best grade?
-
+SELECT td.`Trick_Name` AS `Trick`, AVG( md.`Grade` ) AS `Highest Average`
+   FROM `schema`.`trick_data` as td left outer join `schema`.`match_data` as md
+   ON td.Trick_Name = md.trick_id
+   GROUP BY td.`Trick_Name`
+   Order By AVG( md.`Grade` ) Desc
+   Limit 1;
 # 3. Based on puppy averages, which trainer is the most successful?
-
+SELECT concat(`tfn`, ' ', `tln`) AS 'Trainer', AVG( md.`Grade` ) AS `BestScore`
+	FROM `schema`.`trainer_data` as td join match_ids as mi on mi.tid = td.tid
+	join match_data as md on mi.mid = md.mid
+	group by Trainer
+	order by BestScore DESC
+	Limit 1;
 # 4. The trick “Heel” is a data entry error. Update the name of this trick to “Sit”.
 
 # 5. Delete all references to the puppy named Idiot.
